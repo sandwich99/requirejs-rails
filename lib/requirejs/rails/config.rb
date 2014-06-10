@@ -30,6 +30,7 @@ module Requirejs::Rails
 
       self.run_config_whitelist = %w{
         baseUrl
+        bundles
         callback
         catchError
         config
@@ -50,6 +51,7 @@ module Requirejs::Rails
 
       self.build_config_whitelist = %w{
         appDir
+        bundles
         baseUrl
         closure
         cssImportIgnore
