@@ -102,19 +102,5 @@ module RequirejsHelper
     [asset_host, Rails.application.config.relative_url_root, Rails.application.config.assets.prefix].join
   end
 
-  def normalnize_bundles(bundles)
-    arr = []
-    bundles.each do |key, value|
-      m = Hash.new
-      m['name'] = key
-      m['include'] = value
-      arr << m
-    end
-    arr
-  end
-# (build_config['modules'] << normalize_bundles(build_config['bundles']))
-  def build_modules(cfg)
-    bundle_module =  normalize_bundles(cfg['bundles'])
-    bundle_module << cfg['modules']
-  end
+
 end

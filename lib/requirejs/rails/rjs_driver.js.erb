@@ -19,6 +19,26 @@ function mix(target) {
   }
   return target;
 }
+<%
+  def normalnize_bundles(bundles)
+    arr = []
+    bundles.each do |key, value|
+      m = Hash.new
+      m[:name] = key
+      m[:include] = value
+      arr << m
+    end
+    arr
+  end
+# (build_config['modules'] << normalize_bundles(build_config['bundles']))
+  def build_modules(cfg)
+    bundle_module =  normalize_bundles(cfg['bundles'])
+    bundle_module << cfg['modules']
+  end
+
+%>
+
+
 // (build_config['modules'] << normalize_bundles(build_config['bundles']))
 //TODO 创建bundle 相应空文件
 var module_specs = [
@@ -26,7 +46,6 @@ var module_specs = [
 <%= JSON.pretty_generate(m.merge 'out' => module_path_for(m).to_s ) %>,
 <% end %>
 ];
-
 // Error handler invoked in case requirejs compilation fails
 var errback = function(error) {
   process.stderr.write(error.toString());
