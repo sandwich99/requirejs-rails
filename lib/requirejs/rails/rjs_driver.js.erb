@@ -29,8 +29,8 @@ var module_specs = [
   bundles = build_config['bundles']
   bundles.each do |key, value|
     m = Hash.new
-    m[:name] = key
-    m[:include] = value
+    m['name'] = key
+    m['include'] = value
     arr << m
   end
   arr.concat(build_config['modules'])
