@@ -112,4 +112,9 @@ module RequirejsHelper
     end
     arr
   end
+# (build_config['modules'] << normalize_bundles(build_config['bundles']))
+  def build_modules(cfg)
+    bundle_module =  normalize_bundles(cfg['bundles'])
+    bundle_module << cfg['modules']
+  end
 end
