@@ -27,12 +27,14 @@ var module_specs = [
 <% 
   arr = []
   bundles = build_config['bundles']
-  bundles.each do |key, value|
-    m = Hash.new
-    m['name'] = key
-    m['include'] = value
-    arr << m
-  end if !bundles.blank?
+  if !bundles.blank?
+    bundles.each do |key, value|
+      m = Hash.new
+      m['name'] = key
+      m['include'] = value
+      arr << m
+    end
+  end
   arr.concat(build_config['modules'])
 
   arr.each do |m| %>
