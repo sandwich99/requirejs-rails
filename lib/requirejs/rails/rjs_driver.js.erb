@@ -22,14 +22,14 @@ function mix(target) {
 <%
 # (build_config['modules'] << normalize_bundles(build_config['bundles']))
   arr = []
-  bundles = (build_config['bundles']
+  bundles = build_config['bundles']
   bundles.each do |key, value|
     m = Hash.new
     m[:name] = key
     m[:include] = value
     arr << m
   end
-  arr.concat(cfg['modules'])
+  arr.concat(build_config['modules'])
 
 %>
 
