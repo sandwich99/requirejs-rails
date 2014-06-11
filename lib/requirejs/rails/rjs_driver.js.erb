@@ -19,8 +19,12 @@ function mix(target) {
   }
   return target;
 }
-<%
-# (build_config['modules'] << normalize_bundles(build_config['bundles']))
+
+
+// (build_config['modules'] << normalize_bundles(build_config['bundles']))
+//TODO 创建bundle 相应空文件
+var module_specs = [
+<% 
   arr = []
   bundles = build_config['bundles']
   bundles.each do |key, value|
@@ -31,13 +35,7 @@ function mix(target) {
   end
   arr.concat(build_config['modules'])
 
-%>
-
-
-// (build_config['modules'] << normalize_bundles(build_config['bundles']))
-//TODO 创建bundle 相应空文件
-var module_specs = [
-<% arr.each do |m| %>
+  arr.each do |m| %>
 <%= JSON.pretty_generate(m.merge 'out' => module_path_for(m).to_s ) %>,
 <% end %>
 ];
