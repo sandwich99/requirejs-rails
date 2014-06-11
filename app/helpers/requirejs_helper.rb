@@ -103,10 +103,13 @@ module RequirejsHelper
   end
 
   def normalnize_bundles(bundles)
-    bundles.map do |key,arr|
+    arr = []
+    bundles.each do |key, value|
       m = Hash.new
       m['name'] = key
-      m['include'] = arr
+      m['include'] = value
+      arr << m
     end
+    arr
   end
 end
