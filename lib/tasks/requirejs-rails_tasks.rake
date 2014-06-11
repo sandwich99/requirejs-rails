@@ -100,7 +100,7 @@ OS X Homebrew users can use 'brew install node'.
       end
       requirejs.config.user_config.each do |key , _ |
         filename = requirejs.config.source_dir + key + '.js'
-        filename.dirname.mkpath
+        FileUtils.touch filename
       end
     end
 
