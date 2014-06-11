@@ -3,7 +3,7 @@ var requirejs = require('<%= rjs_path %>'),
   //Set up basic config, include config that is
   //common to all the optimize() calls.
   baseConfig = <%=
-    modifiedHash = build_config.select {|k, _| k != "modules"}
+    modifiedHash = build_config.select {|k, _| k != "modules"||k != "bundles"}
     pathsHash = modifiedHash["paths"]
     modifiedHash["paths"] = pathsHash.select {|_, v| !v.is_a?(Array)} if !pathsHash.nil?
 
