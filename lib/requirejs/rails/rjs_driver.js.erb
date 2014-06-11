@@ -20,21 +20,16 @@ function mix(target) {
   return target;
 }
 <%
-  def normalize_bundles(bundles)
-    arr = []
-    bundles.each do |key, value|
-      m = Hash.new
-      m[:name] = key
-      m[:include] = value
-      arr << m
-    end
-    arr
-  end
 # (build_config['modules'] << normalize_bundles(build_config['bundles']))
-  def build_modules(cfg)
-    bundle_module =  normalize_bundles(cfg['bundles'])
-    bundle_module.concat(cfg['modules'])
+  arr = []
+  bundles = (build_config['bundles']
+  bundles.each do |key, value|
+    m = Hash.new
+    m[:name] = key
+    m[:include] = value
+    arr << m
   end
+  arr.concat(cfg['modules'])
 
 %>
 
@@ -42,7 +37,7 @@ function mix(target) {
 // (build_config['modules'] << normalize_bundles(build_config['bundles']))
 //TODO 创建bundle 相应空文件
 var module_specs = [
-<% build_modules(build_config).each do |m| %>
+<% arr.each do |m| %>
 <%= JSON.pretty_generate(m.merge 'out' => module_path_for(m).to_s ) %>,
 <% end %>
 ];
