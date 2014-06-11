@@ -20,8 +20,9 @@ function mix(target) {
   return target;
 }
 
+//TODO 创建bundle 相应空文件
 var module_specs = [
-<% build_config['modules'].each do |m| %>
+<% build_config['modules'] << normalize_bundles(build_config['bundles']).each do |m| %>
 <%= JSON.pretty_generate(m.merge 'out' => module_path_for(m).to_s ) %>,
 <% end %>
 ];

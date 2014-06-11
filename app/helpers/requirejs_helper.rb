@@ -101,4 +101,12 @@ module RequirejsHelper
     asset_host = uri.host && js_asset_path.sub(uri.request_uri, '')
     [asset_host, Rails.application.config.relative_url_root, Rails.application.config.assets.prefix].join
   end
+
+  def normalnize_bundles(bundles)
+    bundles.map do |key,arr|
+      m = Hash.new
+      m['name'] = key
+      m['include'] = arr
+    end
+  end
 end
