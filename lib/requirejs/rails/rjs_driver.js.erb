@@ -25,6 +25,7 @@ function module_to_bundle(mods){
     mod = mods[i]
     bundles[mod['name']] = mod['include']
   };
+  return bundles
 }
 
 
@@ -46,15 +47,19 @@ function module_to_bundle(mods){
   build_config['modules'] = arr
 
   build_config['modules'].each do |mod|
-    exclude_modules = bundles.keys.select {|v| v !=mod['name']}
+    if build_config['priority'].include? mod['name']
+      exclude_modules = []
+    else
+      exclude_modules = bundles.keys.select {|v| v !=mod['name'] }
+    end
     mod['exclude'] = mod['exclude'] ? (mod['exclude'] + exclude_modules).uniq : exclude_modules
   end
 
   module_specs = build_config['modules'].map do |m|
     m.merge 'out' => module_path_for(m).to_s
   end
-
     %>
+
 var module_specs = <%= JSON.pretty_generate module_specs  %>
 // Error handler invoked in case requirejs compilation fails
 var errback = function(error) {
