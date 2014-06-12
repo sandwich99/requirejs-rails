@@ -55,7 +55,7 @@ function module_to_bundle(mods){
     mod['exclude'] = mod['exclude'] ? (mod['exclude'] + exclude_modules).uniq : exclude_modules
   end
 
-  module_specs = build_config['modules'].map do |m|
+  module_specs = build_config['modules'] = build_config['modules'].map do |m|
     m.merge 'out' => module_source_for(m).to_s
   end
     %>
