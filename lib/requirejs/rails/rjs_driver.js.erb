@@ -55,7 +55,9 @@ function module_to_bundle(mods){
     mod['exclude'] = mod['exclude'] ? (mod['exclude'] + exclude_modules).uniq : exclude_modules
   end
 
-  module_specs = build_config['modules']
+  module_specs = build_config['modules'].map do |m|
+    m.merge 'out' => module_path_for(m).to_s
+  end
     %>
 
 var module_specs = <%= JSON.pretty_generate module_specs  %>
@@ -87,6 +89,7 @@ var async_runner = priority_specs.reduceRight(function(prev, curr) {
 }, function(buildReportText) {
   baseConfig['bundles'] = module_to_bundle(priority_specs);
   baseConfig['modules'] = <%= JSON.pretty_generate ( module_specs.select {| mod |  !build_config['priority'].include? mod['name'] } ) %>
+  baseConfig['dir'] = <%= self.target_dir.to_s %>
   requirejs.optimize(baseConfig,function(){})
 });
 
