@@ -24,7 +24,7 @@ function mix(target) {
 // (build_config['modules'] << normalize_bundles(build_config['bundles']))
 //TODO 创建bundle 相应空文件
 var module_specs = [
-<% 
+<%
   arr = []
   bundles = build_config['bundles']
   if !bundles.blank?
@@ -35,6 +35,11 @@ var module_specs = [
       arr << m
     end
   end
+
+  build_config['modules'].each do |mod|
+    mod['exclude'] = bundles.keys
+  end
+
   arr.concat(build_config['modules'])
   build_config['modules'] = arr
 
