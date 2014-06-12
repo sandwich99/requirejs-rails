@@ -41,7 +41,6 @@ module Requirejs::Rails
         map
         packages
         paths
-        priority
         scriptType
         shim
         urlArgs
