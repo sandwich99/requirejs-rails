@@ -69,7 +69,7 @@ var errback = function(error) {
 
 <%
 
-  priority_specs = build_config['modules'].select {| mod |  build_config['priority'].include? mod['name'] }
+  priority_specs = module_specs.select {| mod |  build_config['priority'].include? mod['name'] }
 
 %>
 
@@ -88,7 +88,7 @@ var async_runner = priority_specs.reduceRight(function(prev, curr) {
   };
 }, function(buildReportText) {
   baseConfig['bundles'] = module_to_bundle(priority_specs);
-  baseConfig['modules'] = <%= JSON.pretty_generate (module_specs - priority_specs) %>
+  baseConfig['modules'] = <%= JSON.pretty_generate (module_specs.select {| mod |  !build_config['priority'].include? mod['name']) %>
   requirejs.optimize(baseConfig,function(){})
 });
 
