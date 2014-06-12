@@ -37,7 +37,7 @@ var module_specs = [
   end
 
   build_config['modules'].each do |mod|
-    mod.merge 'exclude' => bundles.keys
+    mod['exclude'] = mod['exclude'] ? (mod['exclude'] + bundles.keys).uniq : bundles.keys
   end
 
   arr.concat(build_config['modules'])
