@@ -19,11 +19,18 @@ function mix(target) {
   }
   return target;
 }
+function module_to_bundle(mods){
+  bundles = {}
+  for (var i = mods.length - 1; i >= 0; i--) {
+    mod = mods[i]
+    bundles[mod['name']] = mod['include']
+  };
+}
+
 
 
 // (build_config['modules'] << normalize_bundles(build_config['bundles']))
 //TODO 创建bundle 相应空文件
-var module_specs = [
 <%
   arr = []
   bundles = build_config['bundles']
@@ -43,27 +50,47 @@ var module_specs = [
     mod['exclude'] = mod['exclude'] ? (mod['exclude'] + exclude_modules).uniq : exclude_modules
   end
 
-  build_config['modules'].each do |m| %>
-<%= JSON.pretty_generate(m.merge 'out' => module_path_for(m).to_s ) %>,
+  module_specs = build_config['modules'].map do |m|
+    m.merge 'out' => module_path_for(m).to_s
+  end
+
+    %>
+var module_specs = <%= JSON.pretty_generate module_specs  %>
 <% end %>
-];
 // Error handler invoked in case requirejs compilation fails
 var errback = function(error) {
   process.stderr.write(error.toString());
   process.exit(1);
 }
 
+<%
+
+  priority_specs = build_config['modules'].select {| mod |  build_config['priority'].include? mod['name'] }
+
+%>
+
+priority_specs = <%=
+  JSON.pretty_generate priority_specs
+ %>
+<% end %>
+
 // Do a series of builds of individual files, using the args suggested by:
 // http://requirejs.org/docs/optimization.html#onejs
 //
 // r.js will eventually need a nested call idiom to handle async
 // builds.  Anticipating that need.
-// var async_runner = module_specs.reduceRight(function(prev, curr) {
-//   return function (buildReportText) {
-//     requirejs.optimize(mix(curr), prev, errback);
-//   };
-// }, function(buildReportText) {} );
-baseConfig['modules'] = module_specs;
-requirejs.optimize(baseConfig,function(){});
+var async_runner = priority_specs.reduceRight(function(prev, curr) {
+  return function (buildReportText) {
+    requirejs.optimize(mix(curr), prev, errback);
+  };
+}, function(buildReportText) {
+  baseConfig['bundles'] = module_to_bundle(priority_specs);
+  baseConfig['modules'] = <%= JSON.pretty_generate (module_specs - priority_specs) %>
+  requirejs.optimize(baseConfig,function(){})
+});
 
-// async_runner();
+
+// baseConfig['modules'] = module_specs;
+// requirejs.optimize(baseConfig,function(){});
+
+async_runner();

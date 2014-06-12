@@ -80,6 +80,7 @@ module Requirejs::Rails
         paths
         pragmas
         pragmasOnSave
+        priority
         preserveLicenseComments
         shim
         skipModuleInsertion
