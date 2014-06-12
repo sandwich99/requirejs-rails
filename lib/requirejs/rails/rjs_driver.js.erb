@@ -37,7 +37,7 @@ var module_specs = [
   end
 
   build_config['modules'].each do |mod|
-    mod['exclude'] = bundles.keys
+    mod.merge 'exclude' => bundles.keys
   end
 
   arr.concat(build_config['modules'])
