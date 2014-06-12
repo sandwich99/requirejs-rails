@@ -35,13 +35,13 @@ var module_specs = [
       arr << m
     end
   end
-
-  build_config['modules'].each do |mod|
-    mod['exclude'] = mod['exclude'] ? (mod['exclude'] + bundles.keys).uniq : bundles.keys
-  end
-
   arr.concat(build_config['modules'])
   build_config['modules'] = arr
+
+  build_config['modules'].each do |mod|
+    exclude_modules = bundles.keys.select {|v| v !=mod['name']}
+    mod['exclude'] = mod['exclude'] ? (mod['exclude'] + exclude_modules).uniq : exclude_modules
+  end
 
   build_config['modules'].each do |m| %>
 <%= JSON.pretty_generate(m.merge 'out' => module_path_for(m).to_s ) %>,
