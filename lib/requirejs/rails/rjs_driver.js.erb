@@ -89,7 +89,7 @@ var async_runner = priority_specs.reduceRight(function(prev, curr) {
 }, function(buildReportText) {
   baseConfig['bundles'] = module_to_bundle(priority_specs);
   baseConfig['modules'] = <%= JSON.pretty_generate ( module_specs.select {| mod |  !build_config['priority'].include? mod['name'] } ) %>
-  baseConfig['dir'] = <%= h self.target_dir.to_s %>
+  baseConfig['dir'] = "<%= self.target_dir.to_s %>"
   requirejs.optimize(baseConfig,function(){})
 });
 
