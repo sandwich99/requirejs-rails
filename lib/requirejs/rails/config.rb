@@ -149,6 +149,10 @@ module Requirejs::Rails
       self.target_dir+(module_name_for(mod)+'.js')
     end
 
+    def module_source_for(mod)
+      self.source_dir+(module_name_for(mod)+'.js')
+    end
+
     def get_binding
       return binding()
     end
