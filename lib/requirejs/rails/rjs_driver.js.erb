@@ -56,7 +56,6 @@ function module_to_bundle(mods){
 
     %>
 var module_specs = <%= JSON.pretty_generate module_specs  %>
-<% end %>
 // Error handler invoked in case requirejs compilation fails
 var errback = function(error) {
   process.stderr.write(error.toString());
@@ -72,7 +71,6 @@ var errback = function(error) {
 priority_specs = <%=
   JSON.pretty_generate priority_specs
  %>
-<% end %>
 
 // Do a series of builds of individual files, using the args suggested by:
 // http://requirejs.org/docs/optimization.html#onejs
