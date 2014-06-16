@@ -53,7 +53,7 @@ module RequirejsHelper
           bundles.each { |m| paths[m] = _javascript_path(m).sub(/\.js$/,'') }
 
 
-          run_config['test'] = bundles
+          run_config['test'] = ['123'] + bundles
 
           if run_config.has_key? 'paths'
             # Add paths for assets specified by full URL (on a CDN)
