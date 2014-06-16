@@ -86,6 +86,7 @@ module Requirejs::Rails
         skipPragmas
         uglify
         uglify2
+        removeCombined
         useStrict
         wrap
       }
