@@ -44,6 +44,8 @@ module RequirejsHelper
         if Rails.application.config.assets.digest
           modules = requirejs.build_config['modules'].map { |m| requirejs.module_name_for m }
 
+          bundles = requirejs.build_config['bundles'].keys
+
           # Generate digestified paths from the modules spec
           paths = {}
           modules.each { |m| paths[m] = _javascript_path(m).sub /\.js$/,'' }
