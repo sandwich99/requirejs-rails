@@ -44,16 +44,11 @@ module RequirejsHelper
         if Rails.application.config.assets.digest
           modules = requirejs.build_config['modules'].map { |m| requirejs.module_name_for m }
 
-          bundles = requirejs.build_config['bundles'].keys
-
           # Generate digestified paths from the modules spec
           paths = {}
           modules.each { |m| paths[m] = _javascript_path(m).sub /\.js$/,'' }
 
           bundles.each { |m| paths[m] = _javascript_path(m).sub(/\.js$/,'') }
-
-
-          run_config['test'] = ['123'] + bundles
 
           if run_config.has_key? 'paths'
             # Add paths for assets specified by full URL (on a CDN)
@@ -66,13 +61,6 @@ module RequirejsHelper
         end
 
         run_config['baseUrl'] = base_url(name)
-
-        #dev environment not bundle file
-        if Rails.env == 'development'
-          run_config = run_config.select {|key,_| key != 'bundles' && key != 'deps' }
-        end
-
-
         html.concat <<-HTML
         <script>var require = #{run_config.to_json};</script>
         HTML
